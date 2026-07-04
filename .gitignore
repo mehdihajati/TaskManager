@@ -1,0 +1,8 @@
+[Bb]in/
+[Oo]bj/
+.vs/
+*.user
+*.suo
+src/TaskManager.API/appsettings.Developement.json
+src/TaskManager.API/appsettings.json
+src/TaskManager.API/launchSettings.json
