@@ -1,0 +1,15 @@
+using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
+using FluentValidation;
+namespace TaskManager.Application;
+
+public static class DependencyInjection
+{
+    public static IServiceCollection AddApplication(this IServiceCollection services)
+    {
+        var assembly = Assembly.GetExecutingAssembly();
+        services.AddMediatR(x => x.RegisterServicesFromAssembly(assembly));
+        services.AddValidatorsFromAssembly(assembly);
+        return services;
+    }
+}

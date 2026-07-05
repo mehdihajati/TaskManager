@@ -1,0 +1,10 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace TaskManager.Application.Features.Users.Commands.ChangeEmail
+{
+    public class ChangeEmailValidation
+    {
+    }
+}
