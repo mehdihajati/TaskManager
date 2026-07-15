@@ -10,6 +10,7 @@ namespace TaskManager.Application.Features.Users.Commands.LoginUser
         public LoginUserValidator()
         {
             RuleFor(x => x.Email)
+                .Must(email => email == email.Trim().ToLowerInvariant())
                 .NotEmpty().WithMessage("Email is required")
                 .EmailAddress().WithMessage("Invalid email format");
 

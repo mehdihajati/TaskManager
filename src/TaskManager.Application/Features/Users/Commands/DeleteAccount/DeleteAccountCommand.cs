@@ -1,10 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
+using MediatR;
 
-namespace TaskManager.Application.Features.Users.Commands.DeleteAccount
-{
-    public class DeleteAccountCommand
-    {
-    }
-}
+namespace TaskManager.Application.Features.Users.Commands.DeleteAccount;
+
+public record DeleteAccountCommand(string CurrentPassword) : IRequest<Unit>;
