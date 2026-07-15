@@ -1,10 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
+using MediatR;
 
-namespace TaskManager.Application.Features.Projects.Commands.CreateProject
-{
-    public class CreateProjectCommand
-    {
-    }
-}
+namespace TaskManager.Application.Features.Projects.Commands.CreateProject;
+
+public record CreateProjectCommand(string Name, string? Description, DateTimeOffset Deadline) : IRequest<Guid>;
