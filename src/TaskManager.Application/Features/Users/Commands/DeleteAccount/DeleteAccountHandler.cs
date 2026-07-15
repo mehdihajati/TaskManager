@@ -2,7 +2,6 @@ using MediatR;
 using TaskManager.Application.Common.Exceptions;
 using TaskManager.Application.Common.Interfaces;
 using TaskManager.Domain.Interfaces;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace TaskManager.Application.Features.Users.Commands.DeleteAccount;
 
@@ -10,12 +9,13 @@ public class DeleteAccountHandler : IRequestHandler<DeleteAccountCommand, Unit>
 {
     private readonly IUserRepository _userRepository;
     private readonly ICurrentUserService _currentUserService;
+    private readonly IPasswordHasher _passwordHasher;
 
-
-    public DeleteAccountHandler(IUserRepository userRepository, ICurrentUserService currentUserService)
+    public DeleteAccountHandler(IUserRepository userRepository, ICurrentUserService currentUserService, IPasswordHasher passwordHasher)
     {
         _userRepository = userRepository;
         _currentUserService = currentUserService;
+        _passwordHasher = passwordHasher;
 
     }
 
@@ -25,18 +25,15 @@ public class DeleteAccountHandler : IRequestHandler<DeleteAccountCommand, Unit>
         if (userId is null)
             throw new ForbiddenException("Unauthorized to delete account");
         var user = await _userRepository.GetByIdAsync(userId.Value);
+
         if (user == null)
             throw new NotFoundException("User Not found");
+        var isPasswordValid = _passwordHasher.VerifyPassword(request.CurrentPassword, user.PasswordHash);
+        if (!isPasswordValid)
+            throw new ForbiddenException("Password is not valid");
 
-        try
-        {
-            user.DeleteAccount();
-            await _userRepository.UpdateAsync(user);
-        }
-        catch (InvalidCastException ex)
-        {
-            throw new InvalidOperationException("Error deleting account: " + ex.Message);
-        }
+        user.DeleteAccount();
+        await _userRepository.UpdateAsync(user);
         return Unit.Value;
     }
 }
