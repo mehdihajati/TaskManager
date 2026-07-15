@@ -1,10 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
+namespace TaskManager.Application.Features.Users.DTOs;
 
-namespace TaskManager.Application.Features.Users.DTOs
-{
-    public class UserDTO
-    {
-    }
-}
+public record UserDTO(Guid Id, String Name, string Email, DateTimeOffset CreatedAt);

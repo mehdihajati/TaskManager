@@ -1,10 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
+using MediatR;
+using TaskManager.Application.Features.Users.DTOs;
 
-namespace TaskManager.Application.Features.Users.Queries.GetUserById
-{
-    public class GetUserByIdQuery
-    {
-    }
-}
+namespace TaskManager.Application.Features.Users.Queries.GetUserById;
+
+public record GetUserByIdQuery(Guid Id) : IRequest<UserDTO>;
