@@ -1,10 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
+using MediatR;
+using TaskManager.Domain.Enums;
+namespace TaskManager.Application.Features.Projects.Commands.AddMember;
 
-namespace TaskManager.Application.Features.Projects.Commands.AddMember
-{
-    public class AddmemberCommand
-    {
-    }
-}
+public record AddMemberCommand(Guid NewMemberId, ProjectRole NewMemberRole, Guid ProjectId) : IRequest<Unit>;
