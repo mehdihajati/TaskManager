@@ -1,10 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
+using FluentValidation;
 
-namespace TaskManager.Application.Features.Projects.Commands.RemoveMember
+namespace TaskManager.Application.Features.Projects.Commands.RemoveMember;
+
+public class RemoveMemberValidator:AbstractValidator<RemoveMemberCommand>
 {
-    public class RemoveMemberValidator
+    public RemoveMemberValidator()
     {
+        RuleFor(x=>x.ProjectId).NotEmpty().WithMessage("You must select project");
+        RuleFor(x => x.UserId).NotEmpty().WithMessage("you must select user to remove from project");
     }
 }
