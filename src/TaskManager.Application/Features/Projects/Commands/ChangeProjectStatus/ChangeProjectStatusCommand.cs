@@ -1,10 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
+using MediatR;
+using TaskManager.Domain.Enums;
 
-namespace TaskManager.Application.Features.Projects.Commands.ChangeProjectStatus
-{
-    public class ChangeProjectStatusCommand
-    {
-    }
-}
+namespace TaskManager.Application.Features.Projects.Commands.ChangeProjectStatus;
+
+public record ChangeProjectStatusCommand(Guid ProjectId, ProjectStatus NewStatus) : IRequest<Unit>;
