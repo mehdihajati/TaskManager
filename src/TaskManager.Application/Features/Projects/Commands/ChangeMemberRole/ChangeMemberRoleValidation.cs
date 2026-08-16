@@ -1,10 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
+using FluentValidation;
 
-namespace TaskManager.Application.Features.Projects.Commands.ChangeMemberRole
+namespace TaskManager.Application.Features.Projects.Commands.ChangeMemberRole;
+
+public class ChangeMemberRoleValidation : AbstractValidator<ChangeMemberRoleCommand>
 {
-    public class ChangeMemberRoleValidation
+    public ChangeMemberRoleValidation()
     {
+        RuleFor(x => x.ProjectId).NotEmpty().WithMessage("You must select project");
+        RuleFor(x => x.NewMemberRole).IsInEnum().WithMessage("new role should be assinged.");
+        RuleFor(x => x.UserId).NotEmpty().WithMessage("you must select user to assign a role for this project");
+
     }
 }

@@ -1,10 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
+using MediatR;
+using TaskManager.Domain.Enums;
 
-namespace TaskManager.Application.Features.Projects.Commands.ChangeMemberRole
-{
-    public class ChangeMemberRoleCommand
-    {
-    }
-}
+namespace TaskManager.Application.Features.Projects.Commands.ChangeMemberRole;
+
+public record ChangeMemberRoleCommand(Guid UserId, ProjectRole NewMemberRole, Guid ProjectId) : IRequest<Unit>;
