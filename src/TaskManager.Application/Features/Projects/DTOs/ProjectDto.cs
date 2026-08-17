@@ -1,10 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
+using TaskManager.Domain.Enums;
 
-namespace TaskManager.Application.Features.Projects.DTOs
-{
-    public class ProjectDto
-    {
-    }
-}
+namespace TaskManager.Application.Features.Projects.DTOs;
+
+public record ProjectDTO(Guid Id, Guid OwnerId, string Name, string Description, ProjectStatus Status, DateTimeOffset? Deadline);

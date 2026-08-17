@@ -1,10 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
+using MediatR;
+using TaskManager.Domain.Enums;
 
-namespace TaskManager.Application.Features.Projects.Commands.ArchiveProject
-{
-    public class ArchiveProjectCommand
-    {
-    }
-}
+namespace TaskManager.Application.Features.Projects.Commands.ArchiveProject;
+
+public record ArchiveProjectCommand(Guid ProjectId) : IRequest<Unit>;
