@@ -1,6 +1,5 @@
 using MediatR;
-using TaskManager.Domain.Enums;
 
 namespace TaskManager.Application.Features.Tasks.Commands.AssignTask;
 
-public record AssignTaskCommand(Guid AssigneeId, ProjectRole RequesterRole) : IRequest<Unit>;
+public record AssignTaskCommand(Guid AssigneeId, Guid TaskId) : IRequest<Unit>;
