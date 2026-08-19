@@ -1,6 +1,6 @@
 using MediatR;
-using TaskManager.Application.Features.Projects.DTOs;
+using TaskManager.Application.Features.Tasks.DTOs;
 
-namespace TaskManager.Application.Features.Projects.Queries.GetProjectById;
+namespace TaskManager.Application.Features.Tasks.Queries.GetProjectById;
 
 public record GetProjectByIdQuery(Guid ProjectId) : IRequest<ProjectDTO>;

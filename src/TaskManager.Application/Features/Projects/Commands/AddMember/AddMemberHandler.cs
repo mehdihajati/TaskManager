@@ -3,7 +3,7 @@ using TaskManager.Application.Common.Exceptions;
 using TaskManager.Application.Common.Interfaces;
 using TaskManager.Domain.Interfaces;
 
-namespace TaskManager.Application.Features.Projects.Commands.AddMember;
+namespace TaskManager.Application.Features.Tasks.Commands.AddMember;
 
 public class AddMemberHandler : IRequestHandler<AddMemberCommand, Unit>
 {

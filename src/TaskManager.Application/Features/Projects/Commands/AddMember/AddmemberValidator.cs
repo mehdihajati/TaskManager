@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace TaskManager.Application.Features.Projects.Commands.AddMember;
+namespace TaskManager.Application.Features.Tasks.Commands.AddMember;
 
 public class AddMemberValidator : AbstractValidator<AddMemberCommand>
 {

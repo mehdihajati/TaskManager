@@ -4,7 +4,7 @@ using TaskManager.Application.Common.Interfaces;
 using TaskManager.Domain.Entities.Aggregates;
 using TaskManager.Domain.Interfaces;
 
-namespace TaskManager.Application.Features.Projects.Commands.RemoveMember;
+namespace TaskManager.Application.Features.Tasks.Commands.RemoveMember;
 
 public class RemoveMemberHandler : IRequestHandler<RemoveMemberCommand, Unit>
 {

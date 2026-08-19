@@ -4,7 +4,7 @@ using TaskManager.Application.Common.Interfaces;
 using TaskManager.Domain.Entities.Aggregates;
 using TaskManager.Domain.Interfaces;
 
-namespace TaskManager.Application.Features.Projects.Commands.CreateProject;
+namespace TaskManager.Application.Features.Tasks.Commands.CreateProject;
 
 public class CreateProjectHandler : IRequestHandler<CreateProjectCommand, Guid>
 {

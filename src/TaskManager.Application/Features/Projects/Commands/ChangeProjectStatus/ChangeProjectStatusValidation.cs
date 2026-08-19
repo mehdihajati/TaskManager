@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace TaskManager.Application.Features.Projects.Commands.ChangeProjectStatus;
+namespace TaskManager.Application.Features.Tasks.Commands.ChangeProjectStatus;
 
 public class ChangeProjectStatusValidation : AbstractValidator<ChangeProjectStatusCommand>
 {

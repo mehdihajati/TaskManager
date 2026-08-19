@@ -1,10 +1,10 @@
 using MediatR;
 using TaskManager.Application.Common.Exceptions;
 using TaskManager.Application.Common.Interfaces;
-using TaskManager.Application.Features.Projects.DTOs;
+using TaskManager.Application.Features.Tasks.DTOs;
 using TaskManager.Domain.Interfaces;
 
-namespace TaskManager.Application.Features.Projects.Queries.GetProjectsForUser;
+namespace TaskManager.Application.Features.Tasks.Queries.GetProjectsForUser;
 
 public class GetProjectsForUserHandler : IRequestHandler<GetProjectsForUserQuery, IEnumerable<ProjectDTO>>
 {

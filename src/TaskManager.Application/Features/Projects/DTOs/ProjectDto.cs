@@ -1,5 +1,5 @@
 using TaskManager.Domain.Enums;
 
-namespace TaskManager.Application.Features.Projects.DTOs;
+namespace TaskManager.Application.Features.Tasks.DTOs;
 
 public record ProjectDTO(Guid Id, Guid OwnerId, string Name, string Description, ProjectStatus Status, DateTimeOffset? Deadline);

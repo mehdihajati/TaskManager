@@ -1,10 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
+using TaskManager.Domain.Enums;
 
-namespace TaskManager.Application.Features.Projects.DTOs
-{
-    public class ProjectMemberDto
-    {
-    }
-}
+namespace TaskManager.Application.Features.Tasks.DTOs;
+
+public record ProjectMemberDto(Guid UserId, ProjectRole Role);

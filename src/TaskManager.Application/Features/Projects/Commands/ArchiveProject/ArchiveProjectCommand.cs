@@ -1,6 +1,6 @@
 using MediatR;
 using TaskManager.Domain.Enums;
 
-namespace TaskManager.Application.Features.Projects.Commands.ArchiveProject;
+namespace TaskManager.Application.Features.Tasks.Commands.ArchiveProject;
 
 public record ArchiveProjectCommand(Guid ProjectId) : IRequest<Unit>;

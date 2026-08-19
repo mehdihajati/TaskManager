@@ -3,7 +3,7 @@ using TaskManager.Application.Common.Exceptions;
 using TaskManager.Application.Common.Interfaces;
 using TaskManager.Domain.Interfaces;
 
-namespace TaskManager.Application.Features.Projects.Commands.ChangeProjectStatus;
+namespace TaskManager.Application.Features.Tasks.Commands.ChangeProjectStatus;
 
 public class ChangeProjectStatusHandler : IRequestHandler<ChangeProjectStatusCommand, Unit>
 {

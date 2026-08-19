@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace TaskManager.Application.Features.Projects.Commands.ArchiveProject;
+namespace TaskManager.Application.Features.Tasks.Commands.ArchiveProject;
 
 public class ArchiveProjectValidation : AbstractValidator<ArchiveProjectCommand>
 {

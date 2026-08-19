@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace TaskManager.Application.Features.Projects.Commands.ChangeMemberRole;
+namespace TaskManager.Application.Features.Tasks.Commands.ChangeMemberRole;
 
 public class ChangeMemberRoleValidation : AbstractValidator<ChangeMemberRoleCommand>
 {

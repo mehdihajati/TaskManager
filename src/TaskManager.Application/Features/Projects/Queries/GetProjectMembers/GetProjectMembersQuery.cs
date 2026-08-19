@@ -1,10 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
+using MediatR;
+using TaskManager.Application.Features.Tasks.DTOs;
 
-namespace TaskManager.Application.Features.Projects.Queries.GetProjectMembers
-{
-    public class GetProjectMembersQuery
-    {
-    }
-}
+namespace TaskManager.Application.Features.Tasks.Queries.GetProjectMembers;
+
+public record GetProjectMembersQuery(Guid ProjectId) : IRequest<IEnumerable<ProjectMemberDto>>;

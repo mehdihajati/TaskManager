@@ -13,7 +13,7 @@ public static class DependencyInjection
         services.AddMediatR(x => x.RegisterServicesFromAssembly(assembly));
         services.AddValidatorsFromAssembly(assembly);
         // register pipeline behavior
-        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>)
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
         return services;
     }
 }
