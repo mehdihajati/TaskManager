@@ -1,5 +1,4 @@
 # TaskManager API
-
 A production-grade **Task & Project Management REST API** built with **.NET 10**, following **Clean Architecture** and **Domain-Driven Design (DDD)** principles.
 
 This project was built as a deep dive into designing a real-world backend system from the ground up — with a strict focus on rich domain modeling, aggregate boundaries, and separation of concerns rather than tutorial-style CRUD.
@@ -11,6 +10,7 @@ This project was built as a deep dive into designing a real-world backend system
 - **Clean Architecture** with a dedicated **Bootstrapper** layer to keep the API project fully decoupled from Infrastructure
 - **Rich Domain Models** — entities protect their own state through behavior, not public setters
 - **Role-based authorization at the domain level** — `Owner`, `Manager`, `Member`, `Viewer` permissions enforced inside aggregates
+- **CQRS with MediatR** — every use case is an explicit Command or Query, with FluentValidation running automatically ahead of every Handler via a pipeline behavior
 - **Soft delete** pattern built into `BaseEntity`, supporting GDPR-style data retention
 - **`Guid.CreateVersion7()`** (.NET 10) for sequential, client-generated, non-guessable identifiers
 - **DateTimeOffset (UTC)** everywhere — built for a multi-timezone user base from day one
@@ -27,13 +27,11 @@ src/
 ├── TaskManager.Infrastructure  → EF Core, repository implementations. Depends on Application + Domain.
 ├── TaskManager.Bootstrapper    → Wires Application + Infrastructure together for DI.
 └── TaskManager.API             → Controllers, Middleware. Depends only on Application + Bootstrapper.
-
 tests/
 └── TaskManager.Tests
 ```
 
 **Dependency rule:**
-
 ```
 Domain          ← nothing
 Application     ← Domain
@@ -58,8 +56,24 @@ Unlike many "Clean Architecture" templates that let the API project reference In
 **Business rules enforced inside the domain**, e.g.:
 - Only one `Owner` per project; the `Owner` role can never be changed or removed
 - Only `Owner`/`Manager` can add or remove members, change task priority, or reassign tasks
-- A `Member` can only update the status of tasks assigned to them
+- A `Member` can only update the status of tasks assigned to them, or if they're `Owner`/`Manager`
 - Every project automatically gets its creator as `Owner` on creation
+
+---
+
+## 🧩 Application Layer
+
+Every use case is implemented as a **Command** (mutation) or **Query** (read) with a matching **Handler** and **Validator**, following consistent rules across the entire codebase:
+
+- Identity and permission context (`UserId`, requester role) is **never** trusted from client input — always derived server-side from the authenticated session and the actual database membership, never a field on a Command or Query
+- `ForbiddenException` for authentication/authorization failures, `NotFoundException` for missing resources, `ConflictException` for uniqueness violations — applied consistently across every Handler
+- DTOs are manually mapped (no AutoMapper) and never expose sensitive domain data (e.g. password hashes)
+- Validators are pure, stateless shape-checks (FluentValidation) — no database access; business rules that require state live in the Handler or the domain itself
+
+**Features implemented:**
+- **Users** — registration, login (JWT), email/password change, account deletion, profile queries
+- **Projects** — creation, membership management (add/remove/change role), status transitions, archiving, project/member queries
+- **Tasks** — creation, status/priority changes, assignment/unassignment, closing, task queries (by id, by project, by current user)
 
 ---
 
@@ -94,9 +108,9 @@ Swagger UI will be available at `https://localhost:{port}/swagger`.
 This project is under active development as part of a backend engineering portfolio focused on .NET / Clean Architecture / DDD.
 
 - [x] Domain layer (entities, aggregates, repository contracts)
-- [ ] Application layer (CQRS, validation)
-- [ ] Infrastructure layer (EF Core, repositories)
-- [ ] API layer (Controllers, JWT auth, Swagger)
+- [x] Application layer (CQRS commands/queries, validation, DTOs) — Users, Projects, Tasks fully implemented
+- [ ] Infrastructure layer (EF Core, repository implementations, JWT/password services)
+- [ ] API layer (Controllers, JWT auth, Swagger, exception-handling middleware)
 - [ ] Tests
 - [ ] Docker + CI/CD
 
