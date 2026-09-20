@@ -1,4 +1,7 @@
+using TaskManager.API.Extentions;
+using TaskManager.API.Middleware;
 using TaskManager.Bootstrapper;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -6,7 +9,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddOpenApi();
 builder.Services.AddAllServices(builder.Configuration);
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddControllers();
+builder.Services.AddJwtAuthontication(builder.Configuration);
+
 var app = builder.Build();
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -15,5 +22,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
+app.UseAuthorization();
+app.MapControllers();
 app.Run();

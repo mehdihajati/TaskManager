@@ -4,5 +4,4 @@
 *.user
 *.suo
 src/TaskManager.API/appsettings.Development.json
-src/TaskManager.API/appsettings.json
 src/TaskManager.API/launchSettings.json
