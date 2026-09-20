@@ -109,7 +109,7 @@ This project is under active development as part of a backend engineering portfo
 
 - [x] Domain layer (entities, aggregates, repository contracts)
 - [x] Application layer (CQRS commands/queries, validation, DTOs) — Users, Projects, Tasks fully implemented
-- [ ] Infrastructure layer (EF Core, repository implementations, JWT/password services)
+- [x] Infrastructure layer (EF Core, repository implementations, JWT/password services)
 - [ ] API layer (Controllers, JWT auth, Swagger, exception-handling middleware)
 - [ ] Tests
 - [ ] Docker + CI/CD
