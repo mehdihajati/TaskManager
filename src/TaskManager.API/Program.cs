@@ -1,4 +1,4 @@
-using TaskManager.API.Extentions;
+using TaskManager.API.Extensions;
 using TaskManager.API.Middleware;
 using TaskManager.Bootstrapper;
 
@@ -10,7 +10,7 @@ builder.Services.AddOpenApi();
 builder.Services.AddAllServices(builder.Configuration);
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddControllers();
-builder.Services.AddJwtAuthontication(builder.Configuration);
+builder.Services.AddJwtAuthentication(builder.Configuration);
 
 var app = builder.Build();
 app.UseMiddleware<ExceptionHandlingMiddleware>();

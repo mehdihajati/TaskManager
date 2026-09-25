@@ -2,11 +2,11 @@
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
-namespace TaskManager.API.Extentions;
+namespace TaskManager.API.Extensions;
 
-public static class AuthonticationExtention
+public static class AuthenticationExtention
 {
-    public static IServiceCollection AddJwtAuthontication(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddJwtAuthentication(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
