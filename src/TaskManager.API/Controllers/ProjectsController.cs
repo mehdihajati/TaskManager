@@ -80,14 +80,14 @@ public class ProjectsController : ControllerBase
         var result = await _mediator.Send(command);
         return NoContent();
     }
-    [HttpPut("{projectId}/members/{userId}/role")]
+    [HttpPatch("{projectId}/members/{userId}/role")]
     public async Task<IActionResult> ChangeMemberRole(Guid projectId, Guid userId, [FromBody] ChangeMemberRoleRequest request)
     {
         var command = new ChangeMemberRoleCommand(userId, request.NewMemberRole, projectId);
         await _mediator.Send(command);
         return NoContent();
     }
-    [HttpPut("{projectId}/status")]
+    [HttpPatch("{projectId}/status")]
     public async Task<IActionResult> ChangeProjectStatus(Guid projectId, [FromBody] ChangeProjectStatusRequest request)
     {
         var command = new ChangeProjectStatusCommand(projectId, request.NewStatus);

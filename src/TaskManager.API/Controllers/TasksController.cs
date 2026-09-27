@@ -40,17 +40,17 @@ public class TasksController : ControllerBase
         return Ok(queryResult);
 
     }
-    [HttpPost("{taskId}/assign/{assigneeId}")]
-    public async Task<IActionResult> AssignTask(Guid taskId, Guid assigneeId)
-    {
-        var command = new AssignTaskCommand(assigneeId, taskId);
-        await _mediator.Send(command);
-        return NoContent();
-    }
     [HttpDelete("{taskId}/assignee")]
     public async Task<IActionResult> UnAssignTask(Guid taskId)
     {
         var command = new UnassignTaskCommand(taskId);
+        await _mediator.Send(command);
+        return NoContent();
+    }
+    [HttpPut("{taskId}/assignee")]
+    public async Task<IActionResult> AssignTask(Guid taskId, [FromBody] AssignTaskRequest request)
+    {
+        var command = new AssignTaskCommand(request.AssigneeId, taskId);
         await _mediator.Send(command);
         return NoContent();
     }
