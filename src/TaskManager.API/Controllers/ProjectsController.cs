@@ -77,7 +77,7 @@ public class ProjectsController : ControllerBase
     public async Task<IActionResult> AddMember(Guid projectId, [FromBody] AddMemberRequest request)
     {
         var command = new AddMemberCommand(request.NewMemberId, request.NewMemberRole, projectId);
-        var result = await _mediator.Send(command);
+        await _mediator.Send(command);
         return NoContent();
     }
     [HttpPatch("{projectId}/members/{userId}/role")]
@@ -95,10 +95,10 @@ public class ProjectsController : ControllerBase
         return NoContent();
     }
     [HttpDelete("{projectId}/members/{userId}")]
-    public async Task<IActionResult> RemoveMwmber(Guid projectId, Guid userId)
+    public async Task<IActionResult> RemoveMember(Guid projectId, Guid userId)
     {
         var command = new RemoveMemberCommand(projectId, userId);
-        var result = await _mediator.Send(command);
+        await _mediator.Send(command);
         return NoContent();
     }
     [HttpDelete("{projectId}")]
