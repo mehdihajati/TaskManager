@@ -6,11 +6,13 @@ using TaskManager.Application.Features.Tasks.Commands.ArchiveProject;
 using TaskManager.Application.Features.Tasks.Commands.ChangeMemberRole;
 using TaskManager.Application.Features.Tasks.Commands.ChangeProjectStatus;
 using TaskManager.Application.Features.Tasks.Commands.CreateProject;
+using TaskManager.Application.Features.Tasks.Commands.CreateTask;
 using TaskManager.Application.Features.Tasks.Commands.RemoveMember;
 using TaskManager.Application.Features.Tasks.DTOs;
 using TaskManager.Application.Features.Tasks.Queries.GetProjectById;
 using TaskManager.Application.Features.Tasks.Queries.GetProjectMembers;
 using TaskManager.Application.Features.Tasks.Queries.GetProjectsForUser;
+using TaskManager.Application.Features.Tasks.Queries.GetTasksByProject;
 
 namespace TaskManager.API.Controllers;
 
@@ -45,6 +47,24 @@ public class ProjectsController : ControllerBase
         var query = new GetProjectMembersQuery(projectId);
         IEnumerable<ProjectMemberDto> queryResult = await _mediator.Send(query);
         return Ok(queryResult);
+    }
+    [HttpGet("{projectId}/tasks")]
+    public async Task<IActionResult> GetTasksByProject(Guid projectId)
+    {
+        var query = new GetTasksByProjectQuery(projectId);
+        IEnumerable<TaskDto> queryResult = await _mediator.Send(query);
+        return Ok(queryResult);
+    }
+    [HttpPost("project/{projectId}")]
+    public async Task<IActionResult> CreateTask(Guid projectId, [FromBody] CreateTaskRequest request)
+    {
+        var command = new CreateTaskCommand(request.Title, request.Description, request.Priority, projectId, request.DueDate, request.AssigneeId);
+        var taskId = await _mediator.Send(command);
+        return CreatedAtAction(
+            "GetTaskById",
+            "Tasks",
+            new { Id = taskId }
+        );
     }
     [HttpPost]
     public async Task<IActionResult> CreateProject([FromBody] CreateProjectRequest request)

@@ -40,30 +40,12 @@ public class TasksController : ControllerBase
         return Ok(queryResult);
 
     }
-    [HttpGet("project/{projectId}/taskslist")]
-    public async Task<IActionResult> GetTasksByProject(Guid projectId)
-    {
-        var query = new GetTasksByProjectQuery(projectId);
-        IEnumerable<TaskDto> queryResult = await _mediator.Send(query);
-        return Ok(queryResult);
-    }
-    [HttpPost("project/{projectId}")]
-    public async Task<IActionResult> CreateTask(Guid projectId, [FromBody] CreateTaskRequest request)
-    {
-        var command = new CreateTaskCommand(request.Title, request.Description, request.Priority, projectId, request.DueDate, request.AssigneeId);
-        var taskId = await _mediator.Send(command);
-        return CreatedAtAction(
-            nameof(GetTaskById),
-            new { taskId },
-            new { Id = taskId }
-        );
-    }
     [HttpPost("{taskId}/assign/{assigneeId}")]
     public async Task<IActionResult> AssignTask(Guid taskId, Guid assigneeId)
     {
         var command = new AssignTaskCommand(assigneeId, taskId);
-        var commandResult = await _mediator.Send(command);
-        return Ok(commandResult);
+        await _mediator.Send(command);
+        return NoContent();
     }
     [HttpDelete("{taskId}/assignee")]
     public async Task<IActionResult> UnAssignTask(Guid taskId)
@@ -93,5 +75,4 @@ public class TasksController : ControllerBase
         await _mediator.Send(command);
         return NoContent();
     }
-
 }
