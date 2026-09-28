@@ -8,6 +8,6 @@
   </Folder>
   <Folder Name="/tests/" />
   <Folder Name="/tests/Taskmanager.Tests/">
-    <Project Path="tests/Taskmanager.Tests/TaskManager.Tests.csproj" />
+    <Project Path="tests/Taskmanager.Tests/TaskManager.Domain.Tests.csproj" />
   </Folder>
 </Solution>
