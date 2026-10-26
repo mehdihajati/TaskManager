@@ -1,4 +1,5 @@
 using MediatR;
+using TaskManager.Application.Common;
 using TaskManager.Application.Common.Exceptions;
 using TaskManager.Application.Common.Interfaces;
 using TaskManager.Domain.Interfaces;
@@ -9,11 +10,12 @@ public class ArchiveProjectHandler : IRequestHandler<ArchiveProjectCommand, Unit
 {
     private readonly ICurrentUserService _currentUserService;
     private readonly IProjectRepository _projectRepository;
-
-    public ArchiveProjectHandler(ICurrentUserService currentUserService, IProjectRepository projectRepository)
+    private readonly ICacheService _cache;
+    public ArchiveProjectHandler(ICurrentUserService currentUserService, IProjectRepository projectRepository, ICacheService cache)
     {
         _currentUserService = currentUserService;
         _projectRepository = projectRepository;
+        _cache = cache;
     }
     public async Task<Unit> Handle(ArchiveProjectCommand request, CancellationToken cancellationToken)
     {
@@ -23,12 +25,13 @@ public class ArchiveProjectHandler : IRequestHandler<ArchiveProjectCommand, Unit
         var currentUser = _currentUserService.UserId;
         if (currentUser is null)
             throw new ForbiddenException("User is not authenticated");
-        var requesterMember = currentProject.Members.FirstOrDefault(x => x.UserId == currentUser.Value);
+        var requesterMember = currentProject.Members.FirstOrDefault(x => x.UserId == currentUser.Value && !x.IsDeleted);
         if (requesterMember is null)
             throw new ForbiddenException("You are not a member of this project");
         var requesterMemberRole = requesterMember.Role;
         currentProject.ArchiveProject(requesterMemberRole);
         await _projectRepository.UpdateAsync(currentProject);
+        await _cache.RemoveAsync(CacheKeys.Project(request.ProjectId), cancellationToken);
         return Unit.Value;
     }
 }

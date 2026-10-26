@@ -1,4 +1,5 @@
 using MediatR;
+using TaskManager.Application.Common;
 using TaskManager.Application.Common.Exceptions;
 using TaskManager.Application.Common.Interfaces;
 using TaskManager.Domain.Interfaces;
@@ -9,11 +10,13 @@ public class AddMemberHandler : IRequestHandler<AddMemberCommand, Unit>
 {
     private readonly IProjectRepository _projectRepository;
     private readonly ICurrentUserService _currentUser;
+    private readonly ICacheService _cache;
 
-    public AddMemberHandler(IProjectRepository projectRepository, ICurrentUserService currentUser)
+    public AddMemberHandler(IProjectRepository projectRepository, ICurrentUserService currentUser, ICacheService cache)
     {
         _projectRepository = projectRepository;
         _currentUser = currentUser;
+        _cache = cache;
     }
 
     public async Task<Unit> Handle(AddMemberCommand request, CancellationToken cancellationToken)
@@ -24,12 +27,13 @@ public class AddMemberHandler : IRequestHandler<AddMemberCommand, Unit>
         var projectExist = await _projectRepository.GetByIdAsync(request.ProjectId);
         if (projectExist is null)
             throw new NotFoundException("Project not found.");
-        var membershipStatus = projectExist.Members.FirstOrDefault(m => m.UserId == currentUserId.Value);
+        var membershipStatus = projectExist.Members.FirstOrDefault(m => m.UserId == currentUserId.Value && !m.IsDeleted);
         if (membershipStatus is null)
             throw new ForbiddenException("not a member of this project at all");
         projectExist.AddMember(request.NewMemberId, request.NewMemberRole, membershipStatus.Role);
 
         await _projectRepository.UpdateAsync(projectExist);
+        await _cache.RemoveAsync(CacheKeys.Project(request.ProjectId), cancellationToken);
         return Unit.Value;
     }
 }
