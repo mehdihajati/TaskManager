@@ -7,6 +7,8 @@ using TaskManager.Infrastructure.Identity;
 using TaskManager.Infrastructure.Persistence;
 using TaskManager.Infrastructure.Persistence.Repositories;
 using TaskManager.Infrastructure.Services;
+using Microsoft.Extensions.Caching.StackExchangeRedis;
+using TaskManager.Infrastructure.Caching;
 namespace TaskManager.Infrastructure;
 
 public static class DependencyInjection
@@ -17,12 +19,18 @@ public static class DependencyInjection
         {
             options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
         });
+        services.AddStackExchangeRedisCache(options =>
+        {
+            options.Configuration = configuration.GetConnectionString("Redis");
+            options.InstanceName = "TaskManager:";
+        });
         services.AddSingleton<IPasswordHasher, PasswordHasher>();
         services.AddSingleton<IJwtService, JwtService>();
         services.AddScoped<IProjectRepository, ProjectRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<ITaskRepository, TaskRepository>();
         services.AddScoped<ICurrentUserService, CurrentUserService>();
+        services.AddScoped<ICacheService, RedisCacheService>();
         return services;
     }
 }
